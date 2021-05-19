@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'linaria/react';
+
 import { useSensorsWSContext } from '../../context/SensorsWS/SensorsWSContext';
 
 export const Sensors = () => {
