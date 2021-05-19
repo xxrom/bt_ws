@@ -1,9 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { styled } from 'linaria/react';
 import { colors } from '../../../colors';
 import { useSensorsWSContext } from '../../../context/SensorsWS/SensorsWSContext';
 
-export const SensorInfo = ({ id, name, value, unit, connected }) => {
+export const SensorInfo = memo(({ id, name, value, unit, connected }) => {
   const { handleToggleSwitch } = useSensorsWSContext();
 
   const handleToggle = useCallback(
@@ -23,7 +23,9 @@ export const SensorInfo = ({ id, name, value, unit, connected }) => {
       <Button onClick={handleToggle(id)}>{buttonText}</Button>
     </Wrapper>
   );
-};
+});
+
+SensorInfo.displayName = 'SensorInfo';
 
 const Wrapper = styled.div`
   display: flex;

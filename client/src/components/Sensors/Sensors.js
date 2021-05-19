@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { styled } from 'linaria/react';
 
 import { useSensorsWSContext } from '../../context/SensorsWS/SensorsWSContext';
 import { SensorInfo } from './components';
 
-export const Sensors = () => {
+export const Sensors = memo(() => {
   const { sensorsMap, sensorsIDs } = useSensorsWSContext();
 
   return (
@@ -14,7 +14,9 @@ export const Sensors = () => {
       ))}
     </Wrapper>
   );
-};
+});
+
+Sensors.displayName = 'Sensors';
 
 const Wrapper = styled.div`
   display: flex;

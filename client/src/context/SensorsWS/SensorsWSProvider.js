@@ -8,6 +8,7 @@ const client = new w3cwebsocket('ws://127.0.0.1:5000');
 export const SensorsWSProvider = ({ children }) => {
   const [sensorsMap, setSensorsMap] = useState({});
   const [sensorsIDs, setSensorsIDs] = useState([]);
+  const [isDisconnectedVisible, setIsDisconnectedVisible] = useState(true);
 
   const updateSensorsMap = useCallback(
     (data) =>
@@ -17,16 +18,19 @@ export const SensorsWSProvider = ({ children }) => {
           ...data,
         },
       })),
-    [],
+    [setSensorsMap],
   );
 
   useEffect(() => {
-    const ids = Object.keys(sensorsMap);
+    // Sort by connected value (if required)
+    const ids = Object.keys(sensorsMap).filter((id) =>
+      isDisconnectedVisible ? true : sensorsMap[id].connected,
+    );
 
     ids.sort();
 
     setSensorsIDs(ids);
-  }, [sensorsMap]);
+  }, [sensorsMap, isDisconnectedVisible]);
 
   useEffect(() => {
     client.onopen = () => {
@@ -72,8 +76,20 @@ export const SensorsWSProvider = ({ children }) => {
   );
 
   const value = useMemo(
-    () => ({ sensorsMap, sensorsIDs, handleToggleSwitch }),
-    [sensorsMap],
+    () => ({
+      sensorsMap,
+      sensorsIDs,
+      handleToggleSwitch,
+      isDisconnectedVisible,
+      setIsDisconnectedVisible,
+    }),
+    [
+      sensorsMap,
+      sensorsIDs,
+      setIsDisconnectedVisible,
+      handleToggleSwitch,
+      isDisconnectedVisible,
+    ],
   );
 
   return (

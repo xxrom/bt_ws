@@ -20,7 +20,6 @@ const Wrapper = styled.div`
   flex: 1;
   padding: 1em;
   margin: 2rem 2rem 0;
-
   justify-content: space-between;
   border: 1px solid ${colors.border};
   background: ${colors.background};
