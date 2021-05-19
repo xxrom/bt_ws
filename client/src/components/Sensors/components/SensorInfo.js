@@ -1,13 +1,26 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { styled } from 'linaria/react';
 import { colors } from '../../../colors';
+import { useSensorsWSContext } from '../../../context/SensorsWS/SensorsWSContext';
 
-export const SensorInfo = ({ name, value, unit, connected }) => {
+export const SensorInfo = ({ id, name, value, unit, connected }) => {
+  const { handleToggleSwitch } = useSensorsWSContext();
+
+  const handleToggle = useCallback(
+    (innerId) => () => handleToggleSwitch(innerId),
+    [handleToggleSwitch],
+  );
+
+  const buttonText = useMemo(
+    () => (connected ? 'Disconnect' : 'Connect'),
+    [connected],
+  );
+
   return (
     <Wrapper>
       <Name>{name}</Name>
       <Info>{`${value} ${unit}`}</Info>
-      <Button>{connected ? 'Disconnect' : 'Connect'}</Button>
+      <Button onClick={handleToggle(id)}>{buttonText}</Button>
     </Wrapper>
   );
 };

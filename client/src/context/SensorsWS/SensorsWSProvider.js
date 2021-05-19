@@ -9,19 +9,16 @@ export const SensorsWSProvider = ({ children }) => {
   const [sensorsMap, setSensorsMap] = useState({});
   const [sensorsIDs, setSensorsIDs] = useState([]);
 
-  const updateSensorsMap = useCallback((data) => {
-    const { id, name, connected, unit, value } = data;
-
-    setSensorsMap((innerState) => ({
-      ...innerState,
-      [id]: {
-        name,
-        connected,
-        unit,
-        value,
-      },
-    }));
-  }, []);
+  const updateSensorsMap = useCallback(
+    (data) =>
+      setSensorsMap((innerState) => ({
+        ...innerState,
+        [data.id]: {
+          ...data,
+        },
+      })),
+    [],
+  );
 
   useEffect(() => {
     const ids = Object.keys(sensorsMap);
@@ -45,9 +42,39 @@ export const SensorsWSProvider = ({ children }) => {
         updateSensorsMap(data);
       }
     };
-  }, []);
 
-  const value = useMemo(() => ({ sensorsMap, sensorsIDs }), [sensorsMap]);
+    client.onclose = function () {
+      console.warn('Client Closed');
+    };
+  }, [client, updateSensorsMap]);
+
+  const handleToggleSwitch = useCallback(
+    (id) => {
+      const isCommandInvalid =
+        !client ||
+        !sensorsMap[id] ||
+        typeof sensorsMap[id].connected !== 'boolean';
+
+      if (isCommandInvalid) {
+        return;
+      }
+
+      const command = sensorsMap[id].connected ? 'disconnect' : 'connect';
+
+      client.send(
+        JSON.stringify({
+          command,
+          id,
+        }),
+      );
+    },
+    [sensorsMap],
+  );
+
+  const value = useMemo(
+    () => ({ sensorsMap, sensorsIDs, handleToggleSwitch }),
+    [sensorsMap],
+  );
 
   return (
     <SensorsWSContext.Provider value={value}>

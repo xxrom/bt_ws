@@ -7,5 +7,4 @@ export const HeaderSwitcher = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  border: 1px solid green;
 `;

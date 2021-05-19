@@ -21,7 +21,6 @@ export default hot(App);
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
   width: 100vw;
   flex: 1;
   box-sizing: bordre-box;

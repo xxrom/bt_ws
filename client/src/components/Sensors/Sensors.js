@@ -6,7 +6,6 @@ import { SensorInfo } from './components';
 
 export const Sensors = () => {
   const { sensorsMap, sensorsIDs } = useSensorsWSContext();
-  console.warn('sensorsMap', sensorsMap);
 
   return (
     <Wrapper>
@@ -22,5 +21,4 @@ const Wrapper = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  border: 1px solid red;
 `;
