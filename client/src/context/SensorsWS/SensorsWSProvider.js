@@ -7,6 +7,7 @@ const client = new w3cwebsocket('ws://127.0.0.1:5000');
 
 export const SensorsWSProvider = ({ children }) => {
   const [sensorsMap, setSensorsMap] = useState({});
+  const [sensorsIDs, setSensorsIDs] = useState([]);
 
   const updateSensorsMap = useCallback((data) => {
     const { id, name, connected, unit, value } = data;
@@ -21,6 +22,14 @@ export const SensorsWSProvider = ({ children }) => {
       },
     }));
   }, []);
+
+  useEffect(() => {
+    const ids = Object.keys(sensorsMap);
+
+    ids.sort();
+
+    setSensorsIDs(ids);
+  }, [sensorsMap]);
 
   useEffect(() => {
     client.onopen = () => {
@@ -38,7 +47,7 @@ export const SensorsWSProvider = ({ children }) => {
     };
   }, []);
 
-  const value = useMemo(() => ({ sensorsMap }), [sensorsMap]);
+  const value = useMemo(() => ({ sensorsMap, sensorsIDs }), [sensorsMap]);
 
   return (
     <SensorsWSContext.Provider value={value}>
