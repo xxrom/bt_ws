@@ -8,7 +8,7 @@ React will deal with them by one time instead of 300 rerenders on each message a
 ---
 
 TODO:
-[] add jest with test cases
-[] add pypelines for CI/CD (CircleCI/ GitHub Actions/ GitLab CI)
-[] handle docker-compose for server and client at the same time
-[] add docker images for testing app parts in CI/CD
+- [ ] add jest with test cases
+- [ ] add pypelines for CI/CD (CircleCI/ GitHub Actions/ GitLab CI)
+- [ ] handle docker-compose for server and client at the same time
+- [ ] add docker images for testing app parts in CI/CD
